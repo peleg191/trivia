@@ -9,17 +9,20 @@
         <div class="score">
             {{score}}
         </div>
+        <div class="back-to-menu" @click="$emit('back-to-menu')">
+            <img class="return-svg"  src="/return.svg">        
+        </div>
         <div class="answers-body">
-            <div class="answer-button" :class="answer1Class" @click="checkAnswer(1)">
+            <div class="answer-button" :style="computedStyle(0)" :class="answer1Class" @click="checkAnswer(1)">
                 {{ answer1 }}
             </div>
-            <div class="answer-button" :class="answer2Class" @click="checkAnswer(2)">
+            <div class="answer-button" :style="computedStyle(1)" :class="answer2Class" @click="checkAnswer(2)">
                 {{ answer2 }}
             </div>
-            <div class="answer-button" :class="answer3Class" @click="checkAnswer(3)">
+            <div class="answer-button" :style="computedStyle(2)" :class="answer3Class" @click="checkAnswer(3)">
                 {{ answer3 }}
             </div>
-            <div class="answer-button" :class="answer4Class" @click="checkAnswer(4)">
+            <div class="answer-button" :style="computedStyle(3)" :class="answer4Class" @click="checkAnswer(4)">
                 {{ answer4 }}
             </div>
         </div>
@@ -31,6 +34,7 @@ function getOtherIndeces(currentArray) {
     const originalArray = [1, 2, 3, 4];
     return originalArray.filter((x) => { return currentArray.indexOf(x) < 0 });
 }
+const colors = ['#451952', '#662549', '#AE445A', '#F39F5A'];
 export default {
     name: 'main-game-component',
     data() {
@@ -86,6 +90,9 @@ export default {
                     this.newQuestion();
                 }, 1500)
             }
+        },
+        computedStyle(i){
+            return { '--my-color': colors[i] }
         }
     },
     computed: {
@@ -116,6 +123,23 @@ export default {
     line-height: 4vh;
     top: 12vh;
     left: 2vh;
+}
+.back-to-menu{
+    height: 4vh;
+    width: 4vh;
+    font-size: 2vh;
+    border-radius: 8px;
+    position: absolute;
+    text-align: center;
+    line-height: 4vh;
+    top: 12vh;
+    right: 2vh;
+    color: white;
+}
+.return-svg{
+    height: 16px;
+    width: 16px;
+    filter: contrast(0);
 }
 .question-title {
     position: absolute;
@@ -150,9 +174,9 @@ export default {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 5vh;
+    font-size: 3vh;
     color: white;
-    margin-top: 5vh;
+    margin-top: 8vh;
     width: 100vw;
     height: 80vh;
     margin-bottom: auto;
@@ -165,7 +189,8 @@ export default {
     border: 1px white;
     margin-top: 4vh;
     margin-bottom: 4vh;
-    border-radius: 2vh;
+    border-radius: 8px;
+    background:var(--my-color);
 }
 
 /* .answer-button:hover {

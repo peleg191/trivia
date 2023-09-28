@@ -1,0 +1,8 @@
+{
+  "appId": "peleg.tech.mytrivia",
+  "appName": "Trivia Quiz",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
