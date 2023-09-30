@@ -9,7 +9,7 @@
         <div class="score">
             {{score}}
         </div>
-        <div class="back-to-menu" @click="$emit('back-to-menu')">
+        <div class="back-to-menu" @click="endGame">
             <img class="return-svg"  src="/return.svg">        
         </div>
         <div class="answers-body">
@@ -30,6 +30,7 @@
 </template>
 <script>
 import flags from '../flags.js';
+import storage from '../storage';
 function getOtherIndeces(currentArray) {
     const originalArray = [1, 2, 3, 4];
     return originalArray.filter((x) => { return currentArray.indexOf(x) < 0 });
@@ -37,6 +38,7 @@ function getOtherIndeces(currentArray) {
 const colors = ['#451952', '#662549', '#AE445A', '#F39F5A'];
 export default {
     name: 'main-game-component',
+    props:['level','exp'],
     data() {
         return {
             myFlags: flags,
@@ -93,6 +95,24 @@ export default {
         },
         computedStyle(i){
             return { '--my-color': colors[i] }
+        },
+        endGame(){
+            let exp = parseInt(this.exp);
+            let level = parseInt(this.level);
+            let score = parseInt(this.score);
+            let maxExp = level * 10;
+            exp += parseInt(score);
+            let currentExp = parseInt(this.exp);
+            let gap = maxExp - currentExp;
+            while(exp >= gap ){
+                level+=1;
+                maxExp = level * 10; 
+                exp -= gap;
+                gap = maxExp;
+            }
+            storage.setItem('level',level);  
+            storage.setItem('exp',exp); 
+            this.$emit('back-to-menu');
         }
     },
     computed: {
